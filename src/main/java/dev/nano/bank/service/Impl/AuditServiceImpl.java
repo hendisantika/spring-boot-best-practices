@@ -1,14 +1,14 @@
 package dev.nano.bank.service.Impl;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import dev.nano.bank.domain.Audit;
 import dev.nano.bank.domain.enumration.EventType;
 import dev.nano.bank.repository.AuditRepository;
 import dev.nano.bank.service.AuditService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 @Service
 @Transactional

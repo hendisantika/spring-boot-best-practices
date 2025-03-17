@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import dev.nano.bank.domain.UserPrincipal;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,15 +15,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+import static dev.nano.bank.security.constant.SecurityConstant.AUTHORITIES;
+import static dev.nano.bank.security.constant.SecurityConstant.EXPIRATION_TIME;
+import static dev.nano.bank.security.constant.SecurityConstant.NANO_LLC;
+import static dev.nano.bank.security.constant.SecurityConstant.NICE_BANK_ADMINISTRATION;
+import static dev.nano.bank.security.constant.SecurityConstant.TOKEN_CANNOT_BE_VERIFIED;
 import static java.util.Arrays.stream;
-import static dev.nano.bank.security.constant.SecurityConstant.*;
 
 @Component
 public class JWTProvider {
