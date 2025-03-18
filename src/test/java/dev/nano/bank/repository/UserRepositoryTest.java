@@ -16,7 +16,7 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository underTest;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Test
     void itShouldSelectUserByUsernameIfPresent() {
@@ -24,7 +24,6 @@ class UserRepositoryTest {
         String role_super_admin = Role.ROLE_SUPER_ADMIN.toString();
         String username = "NANO23";
         User user = new User(
-                1L,
                 username,
                 passwordEncoder.encode("password123"),
                 "MALE",

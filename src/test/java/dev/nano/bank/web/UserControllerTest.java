@@ -3,14 +3,13 @@ package dev.nano.bank.web;
 import dev.nano.bank.domain.User;
 import dev.nano.bank.domain.enumration.Role;
 import dev.nano.bank.service.UserService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -22,18 +21,21 @@ import java.util.Date;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled
+//@Disabled
 class UserControllerTest {
-    @MockBean
+    @Mock
     private UserService userService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -49,8 +51,8 @@ class UserControllerTest {
                 "nano1",
                 passwordEncoder.encode("password123"),
                 "MALE",
-                "na",
-                "no",
+                "GOJO",
+                "SATORU",
                 new Date(),
                 role_super_admin,
                 getRoleEnumName(role_super_admin).getAuthorities(),
@@ -61,8 +63,8 @@ class UserControllerTest {
                 "nano2",
                 passwordEncoder.encode("password123"),
                 "MALE",
-                "na",
-                "no",
+                "GETO",
+                "SUGURU",
                 new Date(),
                 role_user,
                 getRoleEnumName(role_super_admin).getAuthorities(),

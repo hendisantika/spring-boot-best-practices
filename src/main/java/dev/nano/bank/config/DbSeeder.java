@@ -4,11 +4,11 @@ import com.github.javafaker.Faker;
 import dev.nano.bank.domain.Account;
 import dev.nano.bank.domain.Deposit;
 import dev.nano.bank.domain.Transfer;
-import dev.nano.bank.repository.AccountRepository;
-import dev.nano.bank.repository.TransferRepository;
 import dev.nano.bank.domain.User;
 import dev.nano.bank.domain.enumration.Role;
+import dev.nano.bank.repository.AccountRepository;
 import dev.nano.bank.repository.DepositRepository;
+import dev.nano.bank.repository.TransferRepository;
 import dev.nano.bank.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +22,7 @@ import java.util.Date;
 public class DbSeeder {
 
     private static final Faker faker = new Faker();
+
     @Bean
     CommandLineRunner commandLineRunner(
             UserRepository userRepository,
@@ -37,9 +38,9 @@ public class DbSeeder {
             User superAdmin = new User(
                     "nano23",
                     passwordEncoder.encode("nano23"),
-                    "na",
-                    "no",
                     "MALE",
+                    "YUJI",
+                    "ITADORI",
                     new Date(),
                     superAdminRole,
                     getRoleEnumName(superAdminRole).getAuthorities(),
@@ -47,8 +48,6 @@ public class DbSeeder {
             );
 
             userRepository.save(superAdmin);
-
-
 
             for (int i = 0; i < 3; i++) {
                 String username = faker.name().username().substring(0, 9);
@@ -106,7 +105,6 @@ public class DbSeeder {
             );
 
             transferRepository.save(transfer);
-
 
             /* deposit an amount */
             BigDecimal depositAmount = new BigDecimal(faker.random().nextInt(100, 10_000));

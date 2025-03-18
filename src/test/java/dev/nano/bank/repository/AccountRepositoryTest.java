@@ -31,7 +31,6 @@ class AccountRepositoryTest {
         String role_super_admin = Role.ROLE_SUPER_ADMIN.toString();
         String username = "NANO23";
         User user = new User(
-                1L,
                 username,
                 passwordEncoder.encode("password123"),
                 "MALE",
@@ -43,7 +42,7 @@ class AccountRepositoryTest {
                 true
         );
         userRepository.save(user);
-        Account account = new Account(2L, accountNumber, "RIB1", BigDecimal.valueOf(200000L), user);
+        Account account = new Account(accountNumber, "RIB1", BigDecimal.valueOf(200000L), user);
 
         // When
         underTest.save(account);
