@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -67,7 +66,7 @@ public class TransferServiceImpl implements TransferService {
         sender.setBalance(sender.getBalance().subtract(transfer.getAmount()));
         accountRepository.save(sender);
 
-        receiver.setBalance(new BigDecimal(receiver.getBalance().intValue() + transfer.getAmount().intValue()));
+        receiver.setBalance(receiver.getBalance().add(transfer.getAmount()));
 
         accountRepository.save(receiver);
 

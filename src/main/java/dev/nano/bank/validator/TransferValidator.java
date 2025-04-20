@@ -25,7 +25,7 @@ public class TransferValidator {
             return false;
         }
 
-        if (transfer.getReason() == null && transfer.getReason().isEmpty()) {
+        if (transfer.getReason() == null || transfer.getReason().isEmpty()) {
             log.info("Reason is empty");
             return false;
         }
