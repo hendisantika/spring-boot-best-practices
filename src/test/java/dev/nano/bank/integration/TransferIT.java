@@ -96,19 +96,30 @@ public class TransferIT {
         Transfer transfer = transfers.get(transfers.size() - 1);
         System.out.println("[DEBUG_LOG] Transfer: " + transfer);
         System.out.println("[DEBUG_LOG] Transfer amount: " + transfer.getAmount());
+        System.out.println("[DEBUG_LOG] Transfer amount class: " + transfer.getAmount().getClass().getName());
         System.out.println("[DEBUG_LOG] Expected amount: " + amount);
+        System.out.println("[DEBUG_LOG] Expected amount class: " + amount.getClass().getName());
+        System.out.println("[DEBUG_LOG] Transfer amount toString: " + transfer.getAmount().toString());
+        System.out.println("[DEBUG_LOG] Expected amount toString: " + amount);
         assertThat(transfer.getSenderAccount().getAccountNumber()).isEqualTo(senderAccountNumber);
         assertThat(transfer.getReceiverAccount().getAccountNumber()).isEqualTo(receiverAccountNumber);
         assertThat(transfer.getReason()).isEqualTo(reason);
-        assertThat(transfer.getAmount().toString()).isEqualTo(amount.toString());
+        // Compare the numeric values instead of string representations
+        assertThat(transfer.getAmount().compareTo(amount)).isEqualTo(0);
 
         Account senderAfterTransfer = accountRepository.findAccountByAccountNumber("010000B025001001").get();
         BigDecimal expectedSenderBalance = BigDecimal.valueOf(15000L);
-        assertThat(senderAfterTransfer.getBalance()).isEqualTo(expectedSenderBalance);
+        System.out.println("[DEBUG_LOG] Sender balance after transfer: " + senderAfterTransfer.getBalance());
+        System.out.println("[DEBUG_LOG] Expected sender balance: " + expectedSenderBalance);
+        // Compare the numeric values instead of direct equality
+        assertThat(senderAfterTransfer.getBalance().compareTo(expectedSenderBalance)).isEqualTo(0);
 
         Account receiverAfterTransfer = accountRepository.findAccountByAccountNumber("010000B025001002").get();
         BigDecimal expectedReceiverBalance = BigDecimal.valueOf(20000L);
-        assertThat(receiverAfterTransfer.getBalance()).isEqualTo(expectedReceiverBalance);
+        System.out.println("[DEBUG_LOG] Receiver balance after transfer: " + receiverAfterTransfer.getBalance());
+        System.out.println("[DEBUG_LOG] Expected receiver balance: " + expectedReceiverBalance);
+        // Compare the numeric values instead of direct equality
+        assertThat(receiverAfterTransfer.getBalance().compareTo(expectedReceiverBalance)).isEqualTo(0);
 
         verify(auditService).audit(
                 eq(EventType.TRANSFER),
