@@ -36,8 +36,8 @@ public class DbSeeder {
             String superAdminRole = Role.ROLE_SUPER_ADMIN.toString();
 
             User superAdmin = new User(
-                    "nano23",
-                    passwordEncoder.encode("nano23"),
+                    "yu71",
+                    passwordEncoder.encode("53cret"),
                     "MALE",
                     "YUJI",
                     "ITADORI",
