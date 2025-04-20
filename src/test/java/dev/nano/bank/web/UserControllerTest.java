@@ -2,24 +2,27 @@ package dev.nano.bank.web;
 
 import dev.nano.bank.domain.User;
 import dev.nano.bank.domain.enumration.Role;
+import dev.nano.bank.dto.UserDto;
+import dev.nano.bank.mapper.UserMapper;
 import dev.nano.bank.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -30,11 +33,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerTest {
-    @Mock
+    @MockBean
     private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private MockMvc mockMvc;
@@ -71,7 +77,8 @@ class UserControllerTest {
                 true
         );
 
-        doReturn(Arrays.asList(mockUser1, mockUser2)).when(userService).getAllUsers();
+        List<UserDto> userDtos = userMapper.toListDto(List.of(mockUser1, mockUser2));
+        given(userService.getAllUsers()).willReturn(userDtos);
 
         // Execute the GET request
         mockMvc.perform(get("/api/v1/users/list"))
@@ -83,7 +90,7 @@ class UserControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 
                 // Validate the response fields
-                .andExpect(jsonPath("$.size()", is(4)))
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id").value(is(1)))
                 .andExpect(jsonPath("$[1].id").value(is(2)))
                 .andExpect(jsonPath("$[0].role").value(is(mockUser1.getRole())))
