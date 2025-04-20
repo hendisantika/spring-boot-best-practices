@@ -42,8 +42,8 @@ class UserMapperTest {
 
         // Then
         assertThat(userDto.getUsername()).isEqualTo(expectedUsername);
-        assertThat(userDto.getFirstname()).isEqualTo(expectedFirstname);
-        assertThat(userDto.getLastname()).isEqualTo(expectedLastname);
+        assertThat(userDto.getFirstName()).isEqualTo(expectedFirstname);
+        assertThat(userDto.getLastName()).isEqualTo(expectedLastname);
         assertThat(userDto.getGender()).isEqualTo(expectedGender);
         assertThat(userDto.getBirthdate()).isEqualTo(expectedBirthdate);
     }

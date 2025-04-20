@@ -11,11 +11,13 @@ import java.util.List;
 public class UserMapper {
     public UserDto toDto(User user) {
         UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
         userDto.setGender(user.getGender());
-        userDto.setLastname(user.getLastname());
-        userDto.setFirstname(user.getFirstname());
+        userDto.setLastName(user.getLastname());
+        userDto.setFirstName(user.getFirstname());
         userDto.setBirthdate(user.getBirthdate());
+        userDto.setRole(user.getRole());
         return userDto;
     }
 

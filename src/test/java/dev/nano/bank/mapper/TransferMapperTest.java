@@ -4,7 +4,6 @@ import dev.nano.bank.domain.Account;
 import dev.nano.bank.domain.Transfer;
 import dev.nano.bank.dto.TransferDto;
 import dev.nano.bank.repository.AccountRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -92,9 +91,21 @@ class TransferMapperTest {
     }
 
     @Test
-    @Disabled
     void testToListDto() {
         // Given
+        BigDecimal expectedAmount = new BigDecimal(20000);
+        String expectedReason = "Monthly Salary";
+        Date expectedDateExecution = new Date();
+        String expectedSenderAccountNumber = "010000B0250010AP";
+        String expectedReceiverAccountNumber = "010555B0250010OP";
+        given(transfer.getAmount()).willReturn(expectedAmount);
+        given(transfer.getReason()).willReturn(expectedReason);
+        given(transfer.getDateExecution()).willReturn(expectedDateExecution);
+        given(transfer.getSenderAccount()).willReturn(senderAccount);
+        given(transfer.getReceiverAccount()).willReturn(receiverAccount);
+        given(senderAccount.getAccountNumber()).willReturn(expectedSenderAccountNumber);
+        given(receiverAccount.getAccountNumber()).willReturn(expectedReceiverAccountNumber);
+
         List<Transfer> transfers = new ArrayList<>();
         transfers.add(transfer);
 
@@ -103,6 +114,12 @@ class TransferMapperTest {
 
         // Then
         assertThat(transferDtos).hasSize(1);
-        assertThat(transferDtos.get(0)).isEqualToComparingFieldByField(transferMapper.toDTO(transfer));
+        TransferDto expectedDto = new TransferDto();
+        expectedDto.setSenderAccountNumber(expectedSenderAccountNumber);
+        expectedDto.setReceiverAccountNumber(expectedReceiverAccountNumber);
+        expectedDto.setDateExecution(expectedDateExecution);
+        expectedDto.setReason(expectedReason);
+        expectedDto.setAmount(expectedAmount);
+        assertThat(transferDtos.get(0)).usingRecursiveComparison().isEqualTo(expectedDto);
     }
 }
